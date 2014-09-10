@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Flowecommerce_Resultadosdigitais>
+            <version>0.1.0</version>
+        </Flowecommerce_Resultadosdigitais>
+    </modules>
+    <global>
+        <models>
+            <resultadosdigitais>
+                <class>Flowecommerce_Resultadosdigitais_Model</class>
+            </resultadosdigitais>
+        </models>
+        <helpers>
+            <resultadosdigitais>
+                <class>Flowecommerce_Resultadosdigitais_Helper</class>
+            </resultadosdigitais>
+        </helpers>
+        <events>
+            <!-- formulário de contato enviado -->
+            <controller_action_postdispatch_contacts_index_post>
+                <observers>
+                    <flowecommerce_resultadosdigitais_contacts_post>
+                        <class>resultadosdigitais/observer</class>
+                        <method>contactPost</method>
+                    </flowecommerce_resultadosdigitais_contacts_post>
+                </observers>
+            </controller_action_postdispatch_contacts_index_post>
+
+            <!-- formulário de contato enviado - fileform -->
+            <controller_action_postdispatch_fileform_index_post>
+                <observers>
+                    <flowecommerce_resultadosdigitais_fileform_post>
+                        <class>resultadosdigitais/observer</class>
+                        <method>contactPost</method>
+                    </flowecommerce_resultadosdigitais_fileform_post>
+                </observers>
+            </controller_action_postdispatch_fileform_index_post>
+
+            <!-- criação de pedido -->
+            <sales_order_place_after>
+                <observers>
+                    <flowecommerce_resultadosdigitais_order_place>
+                        <class>resultadosdigitais/observer</class>
+                        <method>orderPlace</method>
+                    </flowecommerce_resultadosdigitais_order_place>
+                </observers>
+            </sales_order_place_after>
+
+            <!-- criação de conta de usuário -->
+            <customer_register_success>
+                <observers>
+                    <flowecommerce_resultadosdigitais_register_success>
+                        <class>resultadosdigitais/observer</class>
+                        <method>registerSuccess</method>
+                    </flowecommerce_resultadosdigitais_register_success>
+                </observers>
+            </customer_register_success>
+
+            <!-- assinatura da newsletter -->
+            <newsletter_subscriber_save_after>
+                <observers>
+                    <flowecommerce_resultadosdigitais_newsletter_subscribe>
+                        <class>resultadosdigitais/observer</class>
+                        <method>newsletterSubscribe</method>
+                    </flowecommerce_resultadosdigitais_newsletter_subscribe>
+                </observers>
+            </newsletter_subscriber_save_after>
+        </events>
+    </global>
+</config>

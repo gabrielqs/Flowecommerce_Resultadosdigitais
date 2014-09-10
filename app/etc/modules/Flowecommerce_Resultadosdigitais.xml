@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Flowecommerce_Resultadosdigitais>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Flowecommerce_Resultadosdigitais>
+    </modules>
+</config>
