@@ -1,5 +1,5 @@
-Integração do Magento com RDStation
-===================================
+Integração do Magento com RDStation (Resultados Digitais)
+=========================================================
 
 Módulo de integração entre o magento e a plataforma RDStation da Resultados Digitais para criação e qualificação de leads.
 
