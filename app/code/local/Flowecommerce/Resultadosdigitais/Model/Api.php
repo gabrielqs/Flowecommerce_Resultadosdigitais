@@ -60,7 +60,7 @@ class Flowecommerce_Resultadosdigitais_Model_Api
         # Utmz
         $tracker = Mage::getModel('resultadosdigitais/googleanalytics_tracker');
         if ($utmz = $tracker->getUtmZString()) {
-            $return['utmz'] = $utmz;
+            $return['c_utmz'] = $utmz;
         }
 
         return $return;
