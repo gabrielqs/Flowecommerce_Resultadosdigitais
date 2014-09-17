@@ -86,7 +86,7 @@ class Flowecommerce_Resultadosdigitais_Model_Observer {
 
             # Empresa (verifica se módulo pj da flow está instalado)
             $empresa = false;
-            if ($customer->getFpjTipoPessoa() == Flowecommerce_Pessoajuridica_Model_Source_Person_Types::TYPE_JURIDICA) {
+            if ($customer->getFpjTipoPessoa() == 2) {
                 if ($customer->getFpjRazaoSocial()) {
                     $empresa = $customer->getFpjRazaoSocial();
                 }
