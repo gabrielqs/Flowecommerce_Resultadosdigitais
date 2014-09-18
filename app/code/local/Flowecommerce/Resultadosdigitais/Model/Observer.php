@@ -5,10 +5,18 @@ class Flowecommerce_Resultadosdigitais_Model_Observer {
     protected $_api    = null;
     protected $_helper = null;
 
+	/**
+	 * Tipos de lead
+	 */
     const LEAD_CONTACTFORM          = 'contact-form';
     const LEAD_ORDERPLACE           = 'order-place';
     const LEAD_ACCOUNTCREATE        = 'account-create';
     const LEAD_NEWSLETTERSUBSCRIBE  = 'newsletter-subscribe';
+
+	/**
+	 * Cliente tipo pessoa juridica - Compatibilidade com módulo PJ Flow
+	 */
+    const FPJ_PESSOA_JURIDICA_TYPE = 2;
 
     protected function _getApi() {
         if (is_null($this->_api)) {
@@ -86,7 +94,7 @@ class Flowecommerce_Resultadosdigitais_Model_Observer {
 
             # Empresa (verifica se módulo pj da flow está instalado)
             $empresa = false;
-            if ($customer->getFpjTipoPessoa() == 2) {
+            if ($customer->getCompany() == self::FPJ_PESSOA_JURIDICA_TYPE) {
                 if ($customer->getFpjRazaoSocial()) {
                     $empresa = $customer->getFpjRazaoSocial();
                 }
