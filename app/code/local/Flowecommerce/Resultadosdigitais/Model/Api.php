@@ -1,12 +1,35 @@
-<?php
+a<?php
 
 class Flowecommerce_Resultadosdigitais_Model_Api
 {
 
-    const API_URL = 'http://www.rdstation.com.br/api/1.2/conversions';
+    const API_URL = 'https://www.rdstation.com.br/api/1.2/conversions';
 
     protected $_helper = null;
     protected $_httpClient = null;
+
+    public function markSale($email, $value)
+    {
+        try {
+            $data = array(
+                'status'      => 'won',
+                'value'       => $value,
+                'email'       => $email,
+            );
+            $token = $this->_getHelper()->getPrivateToken();
+            $url = "https://www.rdstation.com.br/api/1.2/services/{$token}/generic";
+            $leadHttpClient = $this->_getHttpClient();
+            $leadHttpClient
+                ->resetParameters()
+                ->setUri($url)
+                ->setMethod(Zend_Http_Client::POST)
+                ->setParameterPost($data);
+            $response = $leadHttpClient->request();
+            $responseBody = $response->getBody();
+        } catch (Exception $e) {
+            Mage::logException($e);
+        }
+    }
 
     public function addLeadConversion($conversionIdentifier, Flowecommerce_Resultadosdigitais_Model_Requestdata $data)
     {
