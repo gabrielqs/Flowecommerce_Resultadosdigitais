@@ -84,6 +84,7 @@ class Flowecommerce_Resultadosdigitais_Model_Observer {
             $data->setGender($this->_getGenderLabel($customer->getGender()));
             $data->setCpfCnpj($customer->getTaxvat());
 
+
             /*
              * Dados do endereço
              */
@@ -115,7 +116,7 @@ class Flowecommerce_Resultadosdigitais_Model_Observer {
                     $data->setUf($uf);
                 }
             }
-            
+
             $this->_getApi()->addLeadConversion(self::LEAD_ORDERPLACE, $data);
             $this->_getApi()->markSale($customer->getEmail(), $order_value);
         }

@@ -1,9 +1,10 @@
-a<?php
+<?php
 
 class Flowecommerce_Resultadosdigitais_Model_Api
 {
 
-    const API_URL = 'https://www.rdstation.com.br/api/1.2/conversions';
+    const API_URL_CONVERSIONS = 'https://www.rdstation.com.br/api/1.2/conversions/';
+    const API_URL_SERVICES = 'https://www.rdstation.com.br/api/1.2/services/';
 
     protected $_helper = null;
     protected $_httpClient = null;
@@ -17,7 +18,7 @@ class Flowecommerce_Resultadosdigitais_Model_Api
                 'email'       => $email,
             );
             $token = $this->_getHelper()->getPrivateToken();
-            $url = "https://www.rdstation.com.br/api/1.2/services/{$token}/generic";
+            $url = API_URL_SERVICES . "{$token}/generic";
             $leadHttpClient = $this->_getHttpClient();
             $leadHttpClient
                 ->resetParameters()
@@ -42,7 +43,7 @@ class Flowecommerce_Resultadosdigitais_Model_Api
                 $leadHttpClient = $this->_getHttpClient();
                 $leadHttpClient
                     ->resetParameters()
-                    ->setUri(self::API_URL)
+                    ->setUri(self::API_URL_CONVERSIONS)
                     ->setMethod(Zend_Http_Client::POST)
                     ->setParameterPost($this->_prepareParams($conversionIdentifier, $data));
 
