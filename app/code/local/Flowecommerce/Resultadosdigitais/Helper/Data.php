@@ -6,6 +6,10 @@ class Flowecommerce_Resultadosdigitais_Helper_Data extends Mage_Core_Helper_Abst
         return Mage::getStoreConfig('resultadosdigitais/general/token');
     }
 
+    public function getPrivateToken() {
+    	return Mage::getStoreConfig('resultadosdigitais/general/private_token');
+    }
+
     public function isEnabled() {
         return Mage::getStoreConfigFlag('resultadosdigitais/general/enable');
     }

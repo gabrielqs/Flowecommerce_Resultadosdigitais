@@ -5,17 +5,17 @@ class Flowecommerce_Resultadosdigitais_Model_Observer {
     protected $_api    = null;
     protected $_helper = null;
 
-	/**
-	 * Tipos de lead
-	 */
+    /**
+     * Tipos de lead
+     */
     const LEAD_CONTACTFORM          = 'contact-form';
     const LEAD_ORDERPLACE           = 'order-place';
     const LEAD_ACCOUNTCREATE        = 'account-create';
     const LEAD_NEWSLETTERSUBSCRIBE  = 'newsletter-subscribe';
 
-	/**
-	 * Cliente tipo pessoa juridica - Compatibilidade com módulo PJ Flow
-	 */
+    /**
+     * Cliente tipo pessoa juridica - Compatibilidade com módulo PJ Flow
+     */
     const FPJ_PESSOA_JURIDICA_TYPE = 2;
 
     protected function _getApi() {
@@ -72,6 +72,8 @@ class Flowecommerce_Resultadosdigitais_Model_Observer {
             /* @var Mage_Sales_Model_Order_Address $address */
             $address = $order->getBillingAddress();
 
+            $order_value = $order->getGrandTotal();
+
             /*
              * Dados da conta
              */
@@ -81,7 +83,6 @@ class Flowecommerce_Resultadosdigitais_Model_Observer {
             $data->setAniversario($customer->getDob());
             $data->setGender($this->_getGenderLabel($customer->getGender()));
             $data->setCpfCnpj($customer->getTaxvat());
-
 
             /*
              * Dados do endereço
@@ -110,12 +111,13 @@ class Flowecommerce_Resultadosdigitais_Model_Observer {
                 /* @var Mage_Directory_Model_Region $region */
                 $region = Mage::getModel('directory/region')->load($regionId);
                 $uf = $region->getName();
+                if ($uf) {
+                    $data->setUf($uf);
+                }
             }
-            if ($uf) {
-                $data->setUf($uf);
-            }
-
+            
             $this->_getApi()->addLeadConversion(self::LEAD_ORDERPLACE, $data);
+            $this->_getApi()->markSale($customer->getEmail(), $order_value);
         }
     }
 
