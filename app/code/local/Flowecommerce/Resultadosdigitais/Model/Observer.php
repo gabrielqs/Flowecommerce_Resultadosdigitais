@@ -117,6 +117,37 @@ class Flowecommerce_Resultadosdigitais_Model_Observer {
                 }
             }
 
+            # Produtos
+            $i = 0;
+            /* @var Mage_Sales_Model_Order_Item $item */
+            $itemSkus = array();
+            $itemNames = array();
+            $categoryNames = array();
+            foreach($order->getItemsCollection() as $item) {
+                $i++;
+
+                /* @var Mage_Catalog_Model_Product $product */
+                $product = $item->getProduct();
+
+                $itemSkus[] = $item->getSku();
+                $itemNames[] = $item->getName();
+
+                # Categorias dos produtos
+                $j = 0;
+                /* @var Mage_Catalog_Model_Category $category */
+                foreach($product->getCategoryIds() as $categoryId) {
+                    $j++;
+                    $category = Mage::getModel('catalog/category')->load($categoryId);
+                    $categoryNames[] = $category->getName();
+                }
+            }
+
+            $data->setData('produto_sku', implode(', ', $itemSkus));
+            $data->setData('produto_nome', implode(', ', $itemNames));
+            $data->setData('produto__categoria', implode(', ', $categoryNames));
+            $data->setData('metodo_pagamento', $order->getPayment()->getMethod());
+            $data->setData('metodo_entrega', $order->getShippingMethod());
+
             $this->_getApi()->addLeadConversion(self::LEAD_ORDERPLACE, $data);
             $this->_getApi()->markSale($customer->getEmail(), $order_value);
         }
