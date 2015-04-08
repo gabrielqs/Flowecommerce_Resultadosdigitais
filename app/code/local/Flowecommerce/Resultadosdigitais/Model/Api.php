@@ -18,7 +18,7 @@ class Flowecommerce_Resultadosdigitais_Model_Api
                 'email'       => $email,
             );
             $token = $this->_getHelper()->getPrivateToken();
-            $url = API_URL_SERVICES . "{$token}/generic";
+            $url = self::API_URL_SERVICES . "{$token}/generic";
             $leadHttpClient = $this->_getHttpClient();
             $leadHttpClient
                 ->resetParameters()
@@ -39,7 +39,6 @@ class Flowecommerce_Resultadosdigitais_Model_Api
                 $data_query = http_build_query($data);
 
                 # Refactor para utilizar zend_http_client
-                # Lembrar de parâmetros que estavam sendo setados de maneira tosquíssima
                 $leadHttpClient = $this->_getHttpClient();
                 $leadHttpClient
                     ->resetParameters()
