@@ -49,6 +49,10 @@ class Flowecommerce_Resultadosdigitais_Model_Observer {
         return Mage::getModel('resultadosdigitais/requestdata');
     }
 
+    protected function _getStoreDataObject() {
+        return Mage::app()->getStore();
+    }
+
     public function contactPost(Varien_Event_Observer $observer) {
         if ($this->_getHelper()->isEnabled()) {
             $data = $observer->getData();
