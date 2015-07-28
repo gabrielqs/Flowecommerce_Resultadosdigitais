@@ -49,6 +49,10 @@ class Flowecommerce_Resultadosdigitais_Model_Observer {
         return Mage::getModel('resultadosdigitais/requestdata');
     }
 
+    protected function _getStoreDataObject() {
+        return Mage::app()->getStore();
+    }
+
     public function contactPost(Varien_Event_Observer $observer) {
         if ($this->_getHelper()->isEnabled()) {
             $data = $observer->getData();
@@ -58,6 +62,8 @@ class Flowecommerce_Resultadosdigitais_Model_Observer {
             $data->setEmail($post['email']);
             $data->setNome($post['name']);
             $data->setTelefone($post['telephone']);
+            
+            $data->setData('store_name', $this->_getStoreDataObject()->getName());
 
             $this->_getApi()->addLeadConversion(self::LEAD_CONTACTFORM, $data);
         }
@@ -147,6 +153,7 @@ class Flowecommerce_Resultadosdigitais_Model_Observer {
             $data->setData('produto__categoria', implode(', ', $categoryNames));
             $data->setData('metodo_pagamento', $order->getPayment()->getMethod());
             $data->setData('metodo_entrega', $order->getShippingMethod());
+            $data->setData('store_name', $this->_getStoreDataObject()->getName());
 
             $this->_getApi()->addLeadConversion(self::LEAD_ORDERPLACE, $data);
             $this->_getApi()->markSale($customer->getEmail(), $order_value);
@@ -167,6 +174,8 @@ class Flowecommerce_Resultadosdigitais_Model_Observer {
             $data->setAniversario($customer->getDob());
             $data->setGender($this->_getGenderLabel($customer->getGender()));
             $data->setCpfCnpj($customer->getTaxvat());
+            
+            $data->setData('store_name', $this->_getStoreDataObject()->getName());
 
             $this->_getApi()->addLeadConversion(self::LEAD_ACCOUNTCREATE, $data);
         }
@@ -181,6 +190,8 @@ class Flowecommerce_Resultadosdigitais_Model_Observer {
                  */
                 $data = $this->_getRequestDataObject();
                 $data->setEmail($subscriber->getEmail());
+                
+                $data->setData('store_name', $this->_getStoreDataObject()->getName());
 
                 $this->_getApi()->addLeadConversion(self::LEAD_NEWSLETTERSUBSCRIBE, $data);
             }
