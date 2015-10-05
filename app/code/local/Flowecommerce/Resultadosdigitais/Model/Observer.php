@@ -165,9 +165,11 @@ class Flowecommerce_Resultadosdigitais_Model_Observer {
 
             for ($i = 0; $i <=10; $i++) {
                 $response = $this->_getApi()->markSale($customer->getEmail(), $order_value);
-                $statusResponse = $response->getHeader('Status');
-                if ($statusResponse == "200 OK") {
-                    break;
+                if ($response) {
+                    $statusResponse = $response->getHeader('Status');
+                    if ($statusResponse == "200 OK") {
+                        break;
+                    }
                 }
             }
         }
