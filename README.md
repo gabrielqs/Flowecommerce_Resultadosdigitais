@@ -9,6 +9,8 @@ Este módulo executa chamadas para a API do RDStation quando:
 - Uma nova conta de cliente é criada
 - Um novo pedido é criado
 - Um cliente assina a newsletter da loja virtual
+- Um item é adicionado ao carrinho de compras quando o cliente está logado
+- Um pagamento recorrente de uma assinatura é processado - Os observers estão apenas aguardando os eventos serem disparados pela extensão que gerenciar as assinaturas.
 
 
 Configuração
@@ -20,7 +22,16 @@ O Token pode ser obtido no próprio RD Station, em Configurações -> Integraç�
 
 Changelog
 ---------
-* 0.1.1
+* 0.1.5
+  * Bugfix - Quando um lead não havia sido ainda processado pelo RD a conversão em venda não estava sendo processada com sucesso (a conversão do lead leva alguns segundos). Adicionadas conversões para adição de produtos ao carrinho, bem como os observers para pagamentos recorrentes.
+
+* 0.1.4
+  * PR por Bruno Gianni https://github.com/gabrielqs/Flowecommerce_Resultadosdigitais/pull/4
+  
+* 0.1.3
+  * Bugfix: marcar lead como cliente junto com a conversão order_sale não estava funcionando corretamente. Melhoria: enviando dados dos produtos (nomes, categorias, sku) junto com a conversão order_sale.
+
+* 0.1.2
   * Merge do Pull Requeste por @thiesen. Marcando uma venda no RD após uma nova venda ser efetuada no magento
 
 * 0.1.0
