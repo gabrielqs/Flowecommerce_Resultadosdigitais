@@ -11,6 +11,7 @@ class Flowecommerce_Resultadosdigitais_Model_Api
 
     public function markSale($email, $value)
     {
+        $return = false;
         try {
             $data = array(
                 'status'      => 'won',
@@ -26,14 +27,16 @@ class Flowecommerce_Resultadosdigitais_Model_Api
                 ->setMethod(Zend_Http_Client::POST)
                 ->setParameterPost($data);
             $response = $leadHttpClient->request();
-            $responseBody = $response->getBody();
+            $return = $response;
         } catch (Exception $e) {
             Mage::logException($e);
         }
+        return $return;
     }
 
     public function addLeadConversion($conversionIdentifier, Flowecommerce_Resultadosdigitais_Model_Requestdata $data)
     {
+        $return = false;
         try {
             if ($this->validateLead($conversionIdentifier, $data)) {
                 $data_query = http_build_query($data);
@@ -47,11 +50,12 @@ class Flowecommerce_Resultadosdigitais_Model_Api
                     ->setParameterPost($this->_prepareParams($conversionIdentifier, $data));
 
                 $response = $leadHttpClient->request();
-                $responseBody = $response->getBody();
+                $return = $response;
             }
         } catch (Exception $e) {
             Mage::logException($e);
         }
+        return $return;
     }
 
     protected function _getHelper() {

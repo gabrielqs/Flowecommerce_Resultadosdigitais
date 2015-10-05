@@ -12,7 +12,10 @@ class Flowecommerce_Resultadosdigitais_Model_Observer {
     const LEAD_ORDERPLACE           = 'order-place';
     const LEAD_ACCOUNTCREATE        = 'account-create';
     const LEAD_NEWSLETTERSUBSCRIBE  = 'newsletter-subscribe';
-
+    const LEAD_NEWSLETTERUNSUBSCRIBE= 'newsletter-unsubscribe';
+    const LEAD_RECURRINGPAYMENT     = 'recurring-payment-subscription-processed';
+    const LEAD_RECURRINGPAYMENTPLANCHANGE    = 'recurring-payment-plan-change';
+    const LEAD_PRODUCTADDEDTOCART = 'product-added-to-cart';
     /**
      * Cliente tipo pessoa juridica - Compatibilidade com módulo PJ Flow
      */
@@ -62,7 +65,7 @@ class Flowecommerce_Resultadosdigitais_Model_Observer {
             $data->setEmail($post['email']);
             $data->setNome($post['name']);
             $data->setTelefone($post['telephone']);
-            
+
             $data->setData('store_name', $this->_getStoreDataObject()->getName());
 
             $this->_getApi()->addLeadConversion(self::LEAD_CONTACTFORM, $data);
@@ -71,6 +74,9 @@ class Flowecommerce_Resultadosdigitais_Model_Observer {
 
     public function orderPlace(Varien_Event_Observer $observer) {
         if ($this->_getHelper()->isEnabled()) {
+            if(Mage::registry('rdstation_do_not_create_order')){
+                return false;
+            }
             /* @var Mage_Sales_Model_Order $order */
             $order = $observer->getOrder();
             /* @var Mage_Customer_Model_Customer $customer */
@@ -156,7 +162,14 @@ class Flowecommerce_Resultadosdigitais_Model_Observer {
             $data->setData('store_name', $this->_getStoreDataObject()->getName());
 
             $this->_getApi()->addLeadConversion(self::LEAD_ORDERPLACE, $data);
-            $this->_getApi()->markSale($customer->getEmail(), $order_value);
+
+            for ($i = 0; $i <=10; $i++) {
+                $response = $this->_getApi()->markSale($customer->getEmail(), $order_value);
+                $statusResponse = $response->getHeader('Status');
+                if ($statusResponse == "200 OK") {
+                    break;
+                }
+            }
         }
     }
 
@@ -174,7 +187,7 @@ class Flowecommerce_Resultadosdigitais_Model_Observer {
             $data->setAniversario($customer->getDob());
             $data->setGender($this->_getGenderLabel($customer->getGender()));
             $data->setCpfCnpj($customer->getTaxvat());
-            
+
             $data->setData('store_name', $this->_getStoreDataObject()->getName());
 
             $this->_getApi()->addLeadConversion(self::LEAD_ACCOUNTCREATE, $data);
@@ -184,17 +197,68 @@ class Flowecommerce_Resultadosdigitais_Model_Observer {
     public function newsletterSubscribe(Varien_Event_Observer $observer) {
         if ($this->_getHelper()->isEnabled()) {
             $subscriber = $observer->getEvent()->getSubscriber();
-            if ($subscriber->isSubscribed()) {
-                /*
-                 * Dados da conta
-                 */
+            $statusChange = $subscriber->getIsStatusChanged();
+            if($statusChange)
+            {
                 $data = $this->_getRequestDataObject();
                 $data->setEmail($subscriber->getEmail());
-                
                 $data->setData('store_name', $this->_getStoreDataObject()->getName());
-
-                $this->_getApi()->addLeadConversion(self::LEAD_NEWSLETTERSUBSCRIBE, $data);
+                if($subscriber->getSubscriberStatus() == Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED)
+                {
+                    $this->_getApi()->addLeadConversion(self::LEAD_NEWSLETTERSUBSCRIBE, $data);
+                }elseif($subscriber->getSubscriberStatus() == Mage_Newsletter_Model_Subscriber::STATUS_UNSUBSCRIBED) {
+                    $this->_getApi()->addLeadConversion(self::LEAD_NEWSLETTERUNSUBSCRIBE,$data);
+                }
             }
         }
     }
+
+    public function registerRecurringPayment(Varien_Event_Observer $observer)
+    {
+
+        if ($this->_getHelper()->isEnabled() && Mage::registry('rdstation_do_not_create_order')) {
+
+            $data = $this->_getRequestDataObject();
+            $data->setEmail($observer->getEmail());
+            $items = $observer->getOrder()->getItemsCollection()->getItems();
+            foreach($items as $item)
+            {
+                $sku = $item->getSku();
+                $price = $item->getPrice();
+                break;
+            }
+            $data->setProductSku($sku);
+            $data->setProductPrice($price);
+            $this->_getApi()->addLeadConversion(self::LEAD_RECURRINGPAYMENT, $data);
+        }
+    }
+
+    public function changeRecurringPaymentPlan(Varien_Event_Observer $observer)
+    {
+        if ($this->_getHelper()->isEnabled()) {
+
+            $data = $this->_getRequestDataObject();
+            $data->setEmail($observer->getEmail());
+            $data->setOldProductSku($observer->getOldSku());
+            $data->setOldProductPrice($observer->getOldPrice());
+            $data->setNewProductSku($observer->getNewSku());
+            $data->setNewProductPrice($observer->getNewPrice());
+            $this->_getApi()->addLeadConversion(self::LEAD_RECURRINGPAYMENTPLANCHANGE, $data);
+        }
+    }
+
+
+    public function catchAddToCart(Varien_Event_Observer $observer)
+    {
+        if ($this->_getHelper()->isEnabled() && Mage::getSingleton('customer/session')->isLoggedIn()) {
+            $data = $this->_getRequestDataObject();
+            $data->setEmail(Mage::getSingleton('customer/session')->getCustomer()->getEmail());
+            $data->setSku($observer->getProduct()->getSku());
+            $data->setQty($observer->getQuoteItem()->getQty());
+            $data->setPrice($observer->getProduct()->getPrice());
+            $this->_getApi()->addLeadConversion(self::LEAD_PRODUCTADDEDTOCART, $data);
+        }
+
+    }
+
 }
