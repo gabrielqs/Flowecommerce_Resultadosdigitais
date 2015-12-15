@@ -89,6 +89,10 @@ class Flowecommerce_Resultadosdigitais_Model_Api
         if ($utmz = $tracker->getUtmZString()) {
             $return['c_utmz'] = $utmz;
         }
+        
+        if (!empty($_COOKIE['__trf_src'])) {
+    	    $return['traffic_source'] = $_COOKIE['__trf_src'];
+        }
 
         return $return;
     }
