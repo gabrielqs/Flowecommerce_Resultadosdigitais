@@ -56,6 +56,24 @@
                 </observers>
             </recurringpayments_subscription_plan_changed>
 
+            <recurringpayments_subscription_canceled>
+                <observers>
+                    <flowecommerce_resultadosdigitais_recurring_payment_plan_canceled>
+                        <class>resultadosdigitais/observer</class>
+                        <method>recurringPaymentPlanCanceled</method>
+                    </flowecommerce_resultadosdigitais_recurring_payment_plan_canceled>
+                </observers>
+            </recurringpayments_subscription_canceled>
+
+            <recurringpayments_subscription_reactivated>
+                <observers>
+                    <flowecommerce_resultadosdigitais_recurring_payment_plan_reactivated>
+                        <class>resultadosdigitais/observer</class>
+                        <method>recurringPaymentPlanReactivated</method>
+                    </flowecommerce_resultadosdigitais_recurring_payment_plan_reactivated>
+                </observers>
+            </recurringpayments_subscription_reactivated>
+
             <!-- criação de pedido -->
             <sales_order_place_after>
                 <observers>

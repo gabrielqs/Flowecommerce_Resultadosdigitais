@@ -22,6 +22,10 @@ O Token pode ser obtido no próprio RD Station, em Configurações -> Integraç�
 
 Changelog
 ---------
+* 0.1.6
+  * Traffic source sendo enviado ao RD através da integração quando disponível
+  * Mensagem do formulário de contato sendo enviada ao RD
+
 * 0.1.5
   * Bugfix - Quando um lead não havia sido ainda processado pelo RD a conversão em venda não estava sendo processada com sucesso (a conversão do lead leva alguns segundos). Adicionadas conversões para adição de produtos ao carrinho, bem como os observers para pagamentos recorrentes.
 
