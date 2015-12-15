@@ -65,10 +65,22 @@ class Flowecommerce_Resultadosdigitais_Model_Observer {
             $post = $data['controller_action']->getRequest()->getPost();
 
             $data = $this->_getRequestDataObject();
-            $data->setEmail($post['email']);
-            $data->setNome($post['name']);
-            $data->setTelefone($post['telephone']);
-            $data->setMensagem($post['comment']);
+
+            if (array_key_exists('email', $post)) {
+                $data->setEmail($post['email']);
+            }
+
+            if (array_key_exists('name', $post)) {
+                $data->setNome($post['name']);
+            }
+
+            if (array_key_exists('telephone', $post)) {
+                $data->setTelefone($post['telephone']);
+            }
+
+            if (array_key_exists('comment', $post)) {
+                $data->setMensagem($post['comment']);
+            }
 
             $data->setData('store_name', $this->_getStoreDataObject()->getName());
 
