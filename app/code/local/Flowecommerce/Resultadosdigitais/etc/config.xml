@@ -11,6 +11,11 @@
                 <class>Flowecommerce_Resultadosdigitais_Model</class>
             </resultadosdigitais>
         </models>
+        <blocks>
+            <resultadosdigitais>
+                <class>Flowecommerce_Resultadosdigitais_Block</class>
+            </resultadosdigitais>
+        </blocks>
         <helpers>
             <resultadosdigitais>
                 <class>Flowecommerce_Resultadosdigitais_Helper</class>
@@ -113,8 +118,22 @@
                     </flowecommerce_resultadosdigitais_add_to_cart>
                 </observers>
             </checkout_cart_product_add_after>
-
-
         </events>
     </global>
+    <frontend>
+        <layout>
+            <updates>
+                <resultadosdigitais>
+                    <file>resultadosdigitais.xml</file>
+                </resultadosdigitais>
+            </updates>
+        </layout>
+    </frontend>
+    <default>
+        <resultadosdigitais>
+            <general>
+                <jsapurl>https://d335luupugsy2.cloudfront.net/js/integration/stable/rd-js-integration.min.js</jsapurl>
+            </general>
+        </resultadosdigitais>
+    </default>
 </config>

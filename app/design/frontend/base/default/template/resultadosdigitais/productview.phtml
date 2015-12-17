@@ -1,0 +1,15 @@
+<?php if ($this->isTrack()): ?>
+    <script type="text/javascript" src="<?php echo $this->getJsApiUrl(); ?>" async></script>
+    <script type="text/javascript">
+        document.observe('dom:loaded', function() {
+            var rdconversiondata = [
+                { name: 'email', value: '<?php echo $this->getCustomerEmail(); ?>' },
+                { name: 'identificador', value: '<?php echo $this->getIdentificador(); ?>' },
+                { name: 'token_rdstation', value: '<?php echo $this->getTokenPublico(); ?>' },
+                { name: 'nome_produto', value: '<?php echo $this->getNomeProduto(); ?>' },
+                { name: 'sku_produto', value: '<?php echo $this->getSkuProduto(); ?>' }
+            ];
+            RdIntegration.post(rdconversiondata);
+        })
+    </script>
+<?php endif; ?>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <catalog_product_view>
+        <reference name="after_body_start">
+            <block type="resultadosdigitais/productview" name="resultadosdigitais.productview" template="resultadosdigitais/productview.phtml" />
+        </reference>
+    </catalog_product_view>
+
+    <catalog_category_default>
+        <reference name="after_body_start">
+            <block type="resultadosdigitais/categoryview" name="resultadosdigitais.categoryview" template="resultadosdigitais/categoryview.phtml" />
+        </reference>
+    </catalog_category_default>
+
+    <catalog_category_layered>
+        <reference name="after_body_start">
+            <block type="resultadosdigitais/categoryview" name="resultadosdigitais.categoryview" template="resultadosdigitais/categoryview.phtml" />
+        </reference>
+    </catalog_category_layered>
+</layout>

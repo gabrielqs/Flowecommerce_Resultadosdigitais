@@ -18,6 +18,8 @@ class Flowecommerce_Resultadosdigitais_Model_Observer {
     const LEAD_RECURRINGPAYMENTPLANCANCELED    = 'recurring-payment-plan-canceled';
     const LEAD_RECURRINGPAYMENTPLANREACTIVATED = 'recurring-payment-plan-reactivated';
     const LEAD_PRODUCTADDEDTOCART              = 'product-added-to-cart';
+    const LEAD_PRODUCTVIEW                     = 'product-view';
+    const LEAD_CATEGORYVIEW                    = 'category-view';
 
     /**
      * Cliente tipo pessoa juridica - Compatibilidade com módulo PJ Flow
