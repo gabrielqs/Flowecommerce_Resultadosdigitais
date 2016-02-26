@@ -93,6 +93,10 @@ class Flowecommerce_Resultadosdigitais_Model_Api
         if (!empty($_COOKIE['__trf_src'])) {
     	    $return['traffic_source'] = $_COOKIE['__trf_src'];
         }
+        
+        if (!empty($_COOKIE['rdtrk'])) {
+    	    $return['client_id'] = json_decode($_COOKIE['rdtrk'])->{'id'};
+        }
 
         return $return;
     }
