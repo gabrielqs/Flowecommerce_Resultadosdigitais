@@ -14,4 +14,21 @@ class Flowecommerce_Resultadosdigitais_Helper_Data extends Mage_Core_Helper_Abst
         return Mage::getStoreConfigFlag('resultadosdigitais/general/enable');
     }
 
+    public function getJsApiUrl() {
+        return Mage::getStoreConfig('resultadosdigitais/general/jsapurl');
+    }
+
+    public function isAnalyticsEnabled()
+    {
+        return Mage::getStoreConfigFlag('resultadosdigitais/general/enable_analytics');
+    }
+
+    public function getJsAnalyticsUrl() {
+        return Mage::getStoreConfig('resultadosdigitais/general/jsanalyticsurl');
+    }
+
+    public function getAnalyticsCode() {
+        return Mage::getStoreConfig('resultadosdigitais/general/analytics_code');
+    }
+
 }

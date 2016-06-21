@@ -84,6 +84,9 @@ class Flowecommerce_Resultadosdigitais_Model_Api
         $return['token_rdstation'] = $this->_getHelper()->getToken();
         $return['identificador'] = $conversionIdentifier;
 
+        # Código da loja
+        $return['store_code'] = Mage::app()->getStore()->getCode();
+
         # Utmz
         $tracker = Mage::getModel('resultadosdigitais/googleanalytics_tracker');
         if ($utmz = $tracker->getUtmZString()) {
@@ -93,9 +96,9 @@ class Flowecommerce_Resultadosdigitais_Model_Api
         if (!empty($_COOKIE['__trf_src'])) {
     	    $return['traffic_source'] = $_COOKIE['__trf_src'];
         }
-        
+
         if (!empty($_COOKIE['rdtrk'])) {
-    	    $return['client_id'] = json_decode($_COOKIE['rdtrk'])->{'id'};
+            $return['client_id'] = json_decode($_COOKIE['rdtrk'])->{'id'};
         }
 
         return $return;

@@ -18,6 +18,8 @@ class Flowecommerce_Resultadosdigitais_Model_Observer {
     const LEAD_RECURRINGPAYMENTPLANCANCELED    = 'recurring-payment-plan-canceled';
     const LEAD_RECURRINGPAYMENTPLANREACTIVATED = 'recurring-payment-plan-reactivated';
     const LEAD_PRODUCTADDEDTOCART              = 'product-added-to-cart';
+    const LEAD_PRODUCTVIEW                     = 'product-view';
+    const LEAD_CATEGORYVIEW                    = 'category-view';
 
     /**
      * Cliente tipo pessoa juridica - Compatibilidade com módulo PJ Flow
@@ -106,7 +108,7 @@ class Flowecommerce_Resultadosdigitais_Model_Observer {
              * Dados da conta
              */
             $data = $this->_getRequestDataObject();
-            $data->setEmail($customer->getEmail());
+            $data->setEmail($order->getCustomerEmail());
             $data->setNome($customer->getName());
             $data->setAniversario($customer->getDob());
             $data->setGender($this->_getGenderLabel($customer->getGender()));
@@ -180,7 +182,7 @@ class Flowecommerce_Resultadosdigitais_Model_Observer {
             $this->_getApi()->addLeadConversion(self::LEAD_ORDERPLACE, $data);
 
             for ($i = 0; $i <=10; $i++) {
-                $response = $this->_getApi()->markSale($customer->getEmail(), $order_value);
+                $response = $this->_getApi()->markSale($order->getCustomerEmail(), $order_value);
                 if ($response) {
                     $statusResponse = $response->getHeader('Status');
                     if ($statusResponse == "200 OK") {
